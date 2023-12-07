@@ -15,11 +15,16 @@ LIBS += -lsfml-audio-d -lsfml-graphics-d -lsfml-main-d -lsfml-network-d -lsfml-w
 
 INCLUDEPATH += "C:\Qt\SFML-2.3.2\include"
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    player.cpp \
+    entity.cpp \
+    map.cpp
 
 include(deployment.pri)
 qtcAddDeployment()
 
 HEADERS += \
-    map.h
+    map.h \
+    player.h \
+    entity.h
 
