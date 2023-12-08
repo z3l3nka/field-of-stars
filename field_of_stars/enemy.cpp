@@ -1,6 +1,5 @@
 #include "enemy.h"
 
-
 Enemy::Enemy(Image &image, float X, float Y, int W, int H, std::string Name) :Entity(image, X,
                                                                               Y, W, H, Name){
     if (name == "EasyEnemy"){
@@ -16,29 +15,26 @@ Enemy::Enemy(Image &image, float X, float Y, int W, int H, std::string Name) :En
 
 void Enemy::checkCollisionWithMap(float Dx, float Dy)//ф-ция проверки столкновений с картой
 {
-    for (int i = y / 32; i < (y + h) / 32; i++)//проходимся по элементам карты
-        for (int j = x / 32; j<(x + w) / 32; j++)
-        {
-            if (TileMap[i][j] == '0')//если элемент - тайлик земли
-            {
-                if (Dy > 0) {
-                    y = i * 32 - h; dy = -0.1;
-                    direction = rand() % (3); //Направление движения врага
-                }//по Y
-                if (Dy < 0) {
-                    y = i * 32 + 32; dy = 0.1;
-                    direction = rand() % (3);//Направление движения врага
-                }//столкновение с верхними краями
-                if (Dx > 0) {
-                    x = j * 32 - w; dx = -0.1;
-                    direction = rand() % (3);//Направление движения врага
-                }//с правым краем карты
-                if (Dx < 0) {
-                    x = j * 32 + 32; dx = 0.1;
-                    direction = rand() % (3); //Направление движения врага
-                }// с левым краем карты
-            }
-        }
+    if (x <= 10){
+        x = 15;
+        dx = 0.1;
+        direction = rand() % (3);
+    }
+    if (y <= 10){
+        y = 15;
+        dy = 0.1;
+        direction = rand() % (3);
+    }
+    if (x + w >= 790){
+        x = 785 - w;
+        dx = -0.1;
+        direction = rand() % (3);
+    }
+    if (y + h >= 630){
+        y = 625 - h;
+        dy = -0.1;
+        direction = rand() % (3);
+    }
 }
 
 void Enemy::update(float time)
