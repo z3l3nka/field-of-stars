@@ -47,21 +47,21 @@ void Enemy::update(float time)
                 dx = speed;
                 CurrentFrame += 0.005*time;
                 if (CurrentFrame > 3) CurrentFrame -= 3;
-                sprite.setTextureRect(IntRect(96 * int(CurrentFrame), 192, 96, 96));
+                sprite.setTextureRect(IntRect(96 * int(CurrentFrame), 0, 96, 96));
                 break;
             }
             case 1:{//состояние идти влево
                 dx = -speed;
                 CurrentFrame += 0.005*time;
                 if (CurrentFrame > 3) CurrentFrame -= 3;
-                sprite.setTextureRect(IntRect(96 * int(CurrentFrame), 96, 96, 96));
+                sprite.setTextureRect(IntRect(96 * int(CurrentFrame), 0, 96, 96));
                 break;
             }
             case 2:{//идти вверх
                 dy = -speed;
                 CurrentFrame += 0.005*time;
                 if (CurrentFrame > 3) CurrentFrame -= 3;
-                sprite.setTextureRect(IntRect(96 * int(CurrentFrame), 288, 96, 96));
+                sprite.setTextureRect(IntRect(96 * int(CurrentFrame), 0, 96, 96));
                 break;
             }
             case 3:{//идти вниз
