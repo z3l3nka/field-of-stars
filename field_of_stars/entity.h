@@ -17,7 +17,6 @@ public:
     float CurrentFrame;//хранит текущий кадр
     std::string name;//враги могут быть разные, врагов можно различать по именам
     //каждому можно дать свое действие в update() в зависимости от имени
-
     Entity(Image &image, float X, float Y, int W, int H, std::string Name);
     virtual void update(float time) = 0;
     FloatRect getRect();
