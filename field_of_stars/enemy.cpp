@@ -13,7 +13,7 @@ Enemy::Enemy(Image &image, float X, float Y, int W, int H, std::string Name) :En
     }
 }
 
-void Enemy::checkCollisionWithMap(float Dx, float Dy)//ф-ция проверки столкновений с картой
+void Enemy::checkCollisionWithBounds()//ф-ция проверки столкновений с картой
 {
     if (x <= 10){
         x = 15;
@@ -30,8 +30,8 @@ void Enemy::checkCollisionWithMap(float Dx, float Dy)//ф-ция проверк�
         dx = -0.1;
         direction = rand() % (3);
     }
-    if (y + h >= 630){
-        y = 625 - h;
+    if (y + h >= 530){
+        y = 525 - h;
         dy = -0.1;
         direction = rand() % (3);
     }
@@ -73,9 +73,9 @@ void Enemy::update(float time)
             }
             }
             x += dx*time; //движение по “X”
-            checkCollisionWithMap(dx, 0);//обрабатываем столкновение по Х
+            //обрабатываем столкновение по Х
             y += dy*time; //движение по “Y”
-            checkCollisionWithMap(0, dy);//обрабатываем столкновение по Y
+            checkCollisionWithBounds();//обрабатываем столкновение по Y
             sprite.setPosition(x, y); //спрайт в позиции (x, y).
             if (health <= 0){ life = false; }//если жизней меньше 0, либо равно 0, то умираем
         }

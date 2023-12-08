@@ -28,5 +28,6 @@ HEADERS += \
     player.h \
     enemy.h \
     bullet.h \
-    entity.h
+    entity.h \
+    global.h
 
