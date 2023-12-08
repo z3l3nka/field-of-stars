@@ -26,6 +26,11 @@ void Player::control(){
     }
 }
 
+Bullet *Player::strike(Image& BulletImage)
+{
+    return new Bullet(BulletImage, x + (w/2) - 16, y - 16, 16, 16, "Bullet");
+}
+
 void Player::update(float time) //метод "оживления/обновления" объекта класса.
 {
     if (life) {//проверяем, жив ли герой

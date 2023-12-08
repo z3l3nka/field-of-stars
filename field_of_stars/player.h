@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include <SFML/Graphics.hpp>
+#include "bullet.h"
 #include "entity.h"
 
 using namespace sf;
@@ -11,6 +12,7 @@ public:
     int playerScore;//эта переменная может быть только у игрока
     Player(Image &image, int W, int H, std::string Name);
     void control();
+    Bullet* strike(Image& BulletImage);
     //Метод проверки столкновений с элементами карты
     void update(float time);
 };

@@ -56,15 +56,19 @@ int main()
         enemies.push_back(new Enemy(easyEnemyImage, xr, yr, 96, 96, "EasyEnemy"));
         enemiesCount += 1; //увеличили счётчик врагов
     }
+
     int createObjectForMapTimer = 0;//Переменная под время для генерирования камней
+    int shotTimer = 0;
+
     while (window.isOpen())
     {
         float time = clock.getElapsedTime().asMicroseconds();
         clock.restart();
         time = time / 800;
+
         createObjectForMapTimer += time;//наращиваем таймер
+        shotTimer += time;
         if (createObjectForMapTimer>3000){
-            // randomMapGenerate(); //генерация камней
             createObjectForMapTimer = 0;//обнуляем таймер
         }
         sf::Event event;
@@ -75,29 +79,34 @@ int main()
             //стреляем по нажатию клавиши "P"
             if (event.type == sf::Event::KeyPressed)
             {
-                if (event.key.code == sf::Keyboard::P)
-                {
-                    Bullets.push_back(new Bullet(BulletImage, p.x, p.y, 16, 16, "Bullet", p.state));
+                if (event.key.code == sf::Keyboard::P && shotTimer > 200)
+                {   
+                    Bullets.push_back(p.strike(BulletImage));
+                    shotTimer = 0;
                 }
             }
         }
         p.update(time); //оживляем объект “p” класса “Player”
+
         //оживляем врагов
         for (it = enemies.begin(); it != enemies.end(); it++)
         {
             (*it)->update(time); //запускаем метод update()
         }
+
         //оживляем пули
         for (it = Bullets.begin(); it != Bullets.end(); it++)
         {
             (*it)->update(time); //запускаем метод update()
         }
+
         //Проверяем список на наличие "мертвых" пуль и удаляем их
         for (it = Bullets.begin(); it != Bullets.end(); )//говорим что проходимся от начала до конца
         {// если этот объект мертв, то удаляем его
             if ((*it)-> life == false) { it = Bullets.erase(it); }
             else it++;//и идем курсором (итератором) к след объекту.
         }
+
         //Проверка пересечения игрока с врагами
         //Если пересечение произошло, то "health = 0", игрок обездвижевается и
         //выводится сообщение "you are lose"
