@@ -30,8 +30,8 @@ void Enemy::checkCollisionWithBounds()//ф-ция проверки столкн�
         dx = -0.1;
         direction = rand() % (3);
     }
-    if (y + h >= 530){
-        y = 525 - h;
+    if (y + h >= 430){
+        y = 425 - h;
         dy = -0.1;
         direction = rand() % (3);
     }

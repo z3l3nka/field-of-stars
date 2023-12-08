@@ -18,7 +18,7 @@ Entity::Entity(Image &image, float X, float Y, int W, int H, std::string Name){
 }
 
 FloatRect Entity::getRect(){//метод получения прямоугольника. его коорд, размеры (шир,высот).
-    FloatRect FR(x, y, w, h); // переменная FR типа FloatRect
+    FloatRect FR(x + 0.1*w, y, w - 0.1*w, h); // переменная FR типа FloatRect
     return FR;
     //Тип данных (класс) "sf::FloatRect" позволяет хранить четыре координаты прямоугольника
     //в нашей игре это координаты текущего расположения тайла на карте
