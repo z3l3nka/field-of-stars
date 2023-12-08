@@ -30,8 +30,8 @@ void Enemy::checkCollisionWithBounds()//ф-ция проверки столкн�
         dx = -0.1;
         direction = rand() % (3);
     }
-    if (y + h >= 530){
-        y = 525 - h;
+    if (y + h >= 430){
+        y = 425 - h;
         dy = -0.1;
         direction = rand() % (3);
     }
@@ -47,21 +47,21 @@ void Enemy::update(float time)
                 dx = speed;
                 CurrentFrame += 0.005*time;
                 if (CurrentFrame > 3) CurrentFrame -= 3;
-                sprite.setTextureRect(IntRect(96 * int(CurrentFrame), 192, 96, 96));
+                sprite.setTextureRect(IntRect(96 * int(CurrentFrame), 0, 96, 96));
                 break;
             }
             case 1:{//состояние идти влево
                 dx = -speed;
                 CurrentFrame += 0.005*time;
                 if (CurrentFrame > 3) CurrentFrame -= 3;
-                sprite.setTextureRect(IntRect(96 * int(CurrentFrame), 96, 96, 96));
+                sprite.setTextureRect(IntRect(96 * int(CurrentFrame), 0, 96, 96));
                 break;
             }
             case 2:{//идти вверх
                 dy = -speed;
                 CurrentFrame += 0.005*time;
                 if (CurrentFrame > 3) CurrentFrame -= 3;
-                sprite.setTextureRect(IntRect(96 * int(CurrentFrame), 288, 96, 96));
+                sprite.setTextureRect(IntRect(96 * int(CurrentFrame), 0, 96, 96));
                 break;
             }
             case 3:{//идти вниз

@@ -44,6 +44,7 @@ int main()
     std::list<Entity*> enemies; //список врагов
     std::list<Entity*> Bullets; //список пуль
     std::list<Entity*>::iterator it; //итератор чтобы проходить по элементам списка
+    std::list<Entity*>::iterator it2; //итератор чтобы проходить по элементам списка
 
     int enemiesCount = 0; //текущее количество врагов в игре
 
@@ -56,17 +57,36 @@ int main()
         enemies.push_back(new Enemy(easyEnemyImage, xr, yr, 96, 96, "EasyEnemy"));
         enemiesCount += 1; //увеличили счётчик врагов
     }
+
     int createObjectForMapTimer = 0;//Переменная под время для генерирования камней
+    int shotTimer = 0;
+    int enemiesTimer = 0;
+
     while (window.isOpen())
     {
         float time = clock.getElapsedTime().asMicroseconds();
         clock.restart();
         time = time / 800;
+
         createObjectForMapTimer += time;//наращиваем таймер
+        shotTimer += time;
+
         if (createObjectForMapTimer>3000){
-            // randomMapGenerate(); //генерация камней
             createObjectForMapTimer = 0;//обнуляем таймер
         }
+
+        if(enemiesCount < ENEMY_COUNT){
+            enemiesTimer += time;
+            if(enemiesTimer > 300){
+                float xr = 150 + rand() % 500; // случайная координата врага на поле игры по оси “x”
+                float yr = 150 + rand() % 350; // случайная координата врага на поле игры по оси “y”
+                //создаем врагов и помещаем в список
+                enemies.push_back(new Enemy(easyEnemyImage, xr, yr, 96, 96, "EasyEnemy"));
+                enemiesCount += 1; //увеличили счётчик врагов
+                enemiesTimer = 0;
+            }
+        }
+
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -75,29 +95,34 @@ int main()
             //стреляем по нажатию клавиши "P"
             if (event.type == sf::Event::KeyPressed)
             {
-                if (event.key.code == sf::Keyboard::P)
-                {
-                    Bullets.push_back(new Bullet(BulletImage, p.x, p.y, 16, 16, "Bullet", p.state));
+                if (event.key.code == sf::Keyboard::P && shotTimer > 200)
+                {   
+                    Bullets.push_back(p.strike(BulletImage));
+                    shotTimer = 0;
                 }
             }
         }
         p.update(time); //оживляем объект “p” класса “Player”
+
         //оживляем врагов
         for (it = enemies.begin(); it != enemies.end(); it++)
         {
             (*it)->update(time); //запускаем метод update()
         }
+
         //оживляем пули
         for (it = Bullets.begin(); it != Bullets.end(); it++)
         {
             (*it)->update(time); //запускаем метод update()
         }
+
         //Проверяем список на наличие "мертвых" пуль и удаляем их
         for (it = Bullets.begin(); it != Bullets.end(); )//говорим что проходимся от начала до конца
         {// если этот объект мертв, то удаляем его
             if ((*it)-> life == false) { it = Bullets.erase(it); }
             else it++;//и идем курсором (итератором) к след объекту.
         }
+
         //Проверка пересечения игрока с врагами
         //Если пересечение произошло, то "health = 0", игрок обездвижевается и
         //выводится сообщение "you are lose"
@@ -110,6 +135,19 @@ int main()
                 }
             }
         }
+        //Проверка пересечения пуль с врагами
+        //Если пересечение произошло, то "health = 0", игрок обездвижевается и
+        //выводится сообщение "you are lose"
+        for ( it2 = Bullets.begin(); it2 != Bullets.end(); it2++){//бежим по списку пуль
+            for (it = enemies.begin(); it != enemies.end(); it++){//бежим по списку врагов
+                if (((*it)->getRect().intersects((*it2)->getRect())) && ((*it)->name == "EasyEnemy") && ((*it2)->name == "Bullet"))
+                {
+                    Bullets.erase(it2);
+                    enemies.erase(it);
+                    enemiesCount--;
+                }
+            }
+       }
         window.clear();
         /////////////////////////////Рисуем карту/////////////////////
         //объявили переменную здоровья и времени

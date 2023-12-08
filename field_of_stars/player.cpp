@@ -7,7 +7,7 @@ Player::Player(Image &image, int W, int H, std::string Name):Entity(image, (800-
     if (name == "Player1"){
         //Задаем спрайту один прямоугольник для
         //вывода одного игрока. IntRect – для приведения типов
-        sprite.setTextureRect(IntRect(0, 0, w, h));
+        sprite.setTextureRect(IntRect(0, 288, w, h));
     }
 }
 
@@ -24,6 +24,11 @@ void Player::control(){
     {
         state = stay;
     }
+}
+
+Bullet *Player::strike(Image& BulletImage)
+{
+    return new Bullet(BulletImage, x + (w/2) - 16, y - 16, 16, 16, "Bullet");
 }
 
 void Player::update(float time) //метод "оживления/обновления" объекта класса.
