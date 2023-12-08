@@ -2,6 +2,7 @@
 #define ENEMY_H
 
 #include "entity.h"
+#include "map.h"
 
 ////////////////////////////КЛАСС ВРАГА////////////////////////
 class Enemy :public Entity{

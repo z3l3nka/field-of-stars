@@ -2,6 +2,7 @@
 #define BULLET_H
 
 #include "entity.h"
+#include "map.h"
 
 ////////////////////////////КЛАСС ПУЛИ////////////////////////
 class Bullet :public Entity{//класс пули

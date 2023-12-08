@@ -10,9 +10,6 @@
 #include <list>
 
 using namespace sf;
-        }
-    }
-};
 
 int main()
 {
