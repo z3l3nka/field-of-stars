@@ -7,7 +7,7 @@ Player::Player(Image &image, int W, int H, std::string Name):Entity(image, (800-
     if (name == "Player1"){
         //Задаем спрайту один прямоугольник для
         //вывода одного игрока. IntRect – для приведения типов
-        sprite.setTextureRect(IntRect(0, 0, w, h));
+        sprite.setTextureRect(IntRect(0, 288, w, h));
     }
 }
 
