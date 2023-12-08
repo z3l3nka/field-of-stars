@@ -1,45 +1,52 @@
 #include <iostream>
 #include <sstream>
 #include <SFML/Graphics.hpp>
+#include <list>
+#include "global.h"
 #include "entity.h"
 #include "player.h"
 #include "entity.h"
 #include "enemy.h"
 #include "bullet.h"
-#include <list>
 
 using namespace sf;
 
 int main()
 {
     sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
-    sf::RenderWindow window(sf::VideoMode(800, 640, desktop.bitsPerPixel), "Lesson 12");
+    sf::RenderWindow window(sf::VideoMode(SCREEN_W, SCREEN_H, desktop.bitsPerPixel), "Field of stars");
+
     Font font;//шрифт
     font.loadFromFile("CyrilicOld.ttf");//передаем нашему шрифту файл шрифта
     Text text("", font, 20);//создаем объект текст
     text.setColor(Color::Red);//покрасили текст в красный
     text.setStyle(Text::Bold);//жирный текст.
+
     Image map_image;//объект изображения для карты
     map_image.loadFromFile("images/map_new.png");//загружаем файл для карты
     Texture map;//текстура карты
+
     map.loadFromImage(map_image);//заряжаем текстуру картинкой
     Sprite s_map;//создаём спрайт для карты
     s_map.setTexture(map);//заливаем текстуру спрайтом
+
     Clock clock;
-    Clock gameTimeClock;//переменная игрового времени, будем здесь хранить время игры
-    int gameTime = 0;//объявили игровое время, инициализировали.
+
     Image heroImage;
     heroImage.loadFromFile("images/hero.png"); // загружаем изображение игрока
     Image easyEnemyImage;
     easyEnemyImage.loadFromFile("images/enemy.png"); // загружаем изображение врага
+
     Image BulletImage;//изображение для пули
     BulletImage.loadFromFile("images/bullet.png");//загрузили картинку в объект изображения
-    Player p(heroImage, 100, 100, 96, 96, "Player1");//объект класса игрока
+    Player p(heroImage, 96, 96, "Player1");//объект класса игрока
+
     std::list<Entity*> enemies; //список врагов
     std::list<Entity*> Bullets; //список пуль
     std::list<Entity*>::iterator it; //итератор чтобы проходить по элементам списка
-    const int ENEMY_COUNT = 3; //максимальное количество врагов в игре
+
     int enemiesCount = 0; //текущее количество врагов в игре
+
     //Заполняем список объектами врагами
     for (int i = 0; i < ENEMY_COUNT; i++)
     {
@@ -53,9 +60,6 @@ int main()
     while (window.isOpen())
     {
         float time = clock.getElapsedTime().asMicroseconds();
-        if (p.life) gameTime = gameTimeClock.getElapsedTime().asSeconds();//игровое время в
-        //секундах идёт вперед, пока жив игрок. Перезагружать как time его не надо.
-        //оно не обновляет логику игры
         clock.restart();
         time = time / 800;
         createObjectForMapTimer += time;//наращиваем таймер
@@ -109,12 +113,6 @@ int main()
         window.clear();
         /////////////////////////////Рисуем карту/////////////////////
         //объявили переменную здоровья и времени
-        std::ostringstream playerHealthString, gameTimeString;
-        playerHealthString << p.health; gameTimeString << gameTime;//формируем строку
-        text.setString("Здоровье: " + playerHealthString.str() + "\nВремя игры: " +
-                       gameTimeString.str());//задаем строку тексту
-        text.setPosition(50, 50);//задаем позицию текста
-        window.draw(text);//рисуем этот текст
         window.draw(p.sprite);//рисуем спрайт объекта “p” класса “Player”
         //рисуем врагов
         for (it = enemies.begin(); it != enemies.end(); it++)
